@@ -1,1 +1,1 @@
-# pythonStudy
+# studies
