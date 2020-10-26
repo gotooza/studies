@@ -17,7 +17,7 @@ $forma = "# " + $sub + " > " + $main + "`n`n| リンク |`n| :---- |"
 
 $forma | Add-Content topPage.md -Encoding UTF8
 
-$lines = (Get-ChildItem -Name) -as [string[]]
+$lines = (Get-ChildItem | Sort-Object { [regex]::Replace($_.Name, '\d+', { $args[0].Value.PadLeft(20) }) }) -as [string[]]
 $i = 0
 foreach ($line in $lines) {
  $topPage = $lines[$i]
@@ -26,7 +26,7 @@ foreach ($line in $lines) {
     if ($topPage.IndexOf("topPage")) {
         $addTop = $topPage | foreach { $_ -replace ".md", "" }
         $addCon = $topPage | foreach { $_ -replace "\(", "%28" } | foreach { $_ -replace "\)", "%29" }
-        $add = "|[" + $addTop + "](" + $addCon + ")|" | Sort-Object | Add-Content topPage.md -Encoding UTF8
+        $add = "|[" + $addTop + "](" + $addCon + ")|" | Add-Content topPage.md -Encoding UTF8
     }
  $i++
 }
